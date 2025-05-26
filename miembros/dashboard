@@ -1,0 +1,15 @@
+<script>
+  auth.onAuthStateChanged(user => {
+    if (!user) {
+      window.location.href = '../login.html';
+    } else {
+      // Opcional: Verificar nivel de membresía
+      db.collection('usuarios').doc(user.uid).get()
+        .then(doc => {
+          if (!doc.exists || doc.data().nivel !== 'premium') {
+            window.location.href = '../login.html?error=no_premium';
+          }
+        });
+    }
+  });
+</script>
